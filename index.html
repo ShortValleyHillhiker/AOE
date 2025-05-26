@@ -1,43 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Slot Machine</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="app.js"></script>
 </head>
-
 <body>
-  <main>
-    <div class="spinner-container">
-      <div class="column" id="column-a">
-        <div data-weight="1">All</div>
-        <div data-weight="2">Area</div>
-        <div data-weight="5">Always</div>
-        <div data-weight="3">Analog</div>
-        <div data-weight="4">Adapt</div>
-      </div>
-      <div class="column" id="column-o">
-        <div data-weight="1">Our</div>
-        <div data-weight="2">Of</div>
-        <div data-weight="5">Out</div>
-        <div data-weight="5">Offer</div>
-        <div data-weight="3">Och</div>
-        <div data-weight="4">Overcome</div>
-      </div>
-      <div class="column" id="column-e">
-        <div data-weight="2">Effect</div>
-        <div data-weight="5">Excellence</div>
-        <div data-weight="5">Efficiency</div>
-        <div data-weight="1">Expertise</div>
-        <div data-weight="4">Effect</div>
-        <div data-weight="3">Elektronisk</div>
-        <div data-weight="5">Execute</div>
-      </div>
-    </div>
-  </main>
-  <script src="script.js"></script>
-</body>
+    
+<img id="source-img" src="https://www.vennerstrom.se/cases/storaenso/01.webp" style="display:none;" crossorigin="anonymous">
 
+<div class="canvas-wrapper"><canvas class="ripple-canvas touch"></canvas></div>
+<div class="canvas-wrapper"><canvas class="ripple-canvas automatic"></canvas></div>
+<div class="canvas-wrapper"><canvas class="ripple-canvas loop"></canvas></div>
+<div class="canvas-wrapper"><canvas class="ripple-canvas halftone"></canvas></div>
+
+</body>
 </html>
