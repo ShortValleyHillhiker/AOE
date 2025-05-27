@@ -1,17 +1,61 @@
 @import url("https://fonts.cdnfonts.com/css/switzer");
 
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+img,
+video {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+
 body {
   margin: 0;
   padding: 2rem;
+  display: grid;
   background: #f8f8f8;
+}
+
+main {
   display: grid;
   gap: 1rem;
-  font-family: 'Switzer', sans-serif;
+  max-width: 1720px;
 }
 
 section {
   display: grid;
   gap: 1rem;
+  max-width: 800px;
+  width: 100%;
 }
 section.ett {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -20,7 +64,10 @@ section.tva {
   grid-template-columns: repeat(1, 1fr);
 }
 
-.canvas-wrapper:not(:has(.ripple-canvas.halftone)) {
+.canvas-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   aspect-ratio: 1 / 1;
   position: relative;
   background: #f8f8f8;
@@ -30,12 +77,7 @@ canvas.ripple-canvas {
   width: 100%;
   height: 100%;
   display: block;
-}
-
-.canvas-wrapper:has(.ripple-canvas.halftone) {
-    width: 100%;
-    height: auto;
-    display: block;
+  border-radius: clamp(0.25rem, 1vw, 1rem);
 }
 
 canvas.ripple-canvas.touch {
