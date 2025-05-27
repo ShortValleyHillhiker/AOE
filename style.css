@@ -18,7 +18,7 @@ section.tva {
 }
 
 .canvas-wrapper {
-  aspect-ratio: 1 / 1;
+  /* aspect-ratio: 1 / 1; */
   position: relative;
   background: #f8f8f8;
 }
@@ -31,7 +31,7 @@ canvas.ripple-canvas {
 }
 
 .canvas-wrapper:has(.ripple-canvas.halftone) {
-  aspect-ratio: 16 / 9;
+  /* aspect-ratio: 16 / 9; */
 }
 
 canvas.ripple-canvas.touch {
