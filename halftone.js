@@ -93,18 +93,21 @@ function resizeCanvas() {
         requestAnimationFrame(animate);
     }
 
-    function init() {
-        if (sourceImage.complete && sourceImage.naturalWidth > 0) {
+function init() {
+    if (sourceImage.complete && sourceImage.naturalWidth > 0) {
+        requestAnimationFrame(() => {
             resizeCanvas();
             drawOnce();
-        } else {
-            sourceImage.onload = () => {
+        });
+    } else {
+        sourceImage.onload = () => {
+            requestAnimationFrame(() => {
                 resizeCanvas();
                 drawOnce();
-            };
-        }
+            });
+        };
     }
-
+}
     window.addEventListener('resize', () => {
         resizeCanvas();
         drawOnce();
