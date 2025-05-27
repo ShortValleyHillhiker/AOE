@@ -1,13 +1,9 @@
 body {
   margin: 0;
   padding: 2rem;
-  display: grid;
   background: #f8f8f8;
-}
-main {
   display: grid;
   gap: 1rem;
-  max-width: 1720px;
 }
 
 section {
