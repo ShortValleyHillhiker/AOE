@@ -1,19 +1,20 @@
 export function createGrid(canvas, spacing = 8) {
     const grid = [];
-    const cols = Math.floor(canvas.width / spacing);
-    const rows = Math.floor(canvas.height / spacing);
-    const gridOffsetX = (canvas.width - cols * spacing) / 2;
-    const gridOffsetY = (canvas.height - rows * spacing) / 2;
+
+    const cols = Math.ceil(canvas.width / spacing);
+    const rows = Math.ceil(canvas.height / spacing);
 
     for (let y = 0; y <= rows; y++) {
         for (let x = 0; x <= cols; x++) {
             const offsetX = (y % 2 === 0) ? 0 : spacing / 2;
+
             grid.push({
-                x: gridOffsetX + x * spacing + offsetX,
-                y: gridOffsetY + y * spacing
+                x: x * spacing + offsetX,
+                y: y * spacing
             });
         }
     }
+
     return grid;
 }
 
@@ -24,7 +25,7 @@ export function drawDotGrid(ctx, grid, getRadius) {
 
         ctx.beginPath();
         ctx.arc(Math.round(dot.x), Math.round(dot.y), radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = '#5b5b5b';
         ctx.fill();
     }
 }
