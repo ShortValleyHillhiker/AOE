@@ -32,9 +32,27 @@ export function drawDotGrid(ctx, grid, getRadius) {
 
 export function resizeCanvasAndGrid(canvas, spacing = 8) {
     const wrapper = canvas.parentElement;
-    canvas.width = wrapper.clientWidth;
-    canvas.height = wrapper.clientHeight;
 
-    const grid = createGrid(canvas, spacing);
-    return grid;
+    if (canvas.classList.contains('halftone')) {
+        const image = wrapper.querySelector('img');
+        if (image && image.naturalWidth > 0) {
+            const aspectRatio = image.naturalWidth / image.naturalHeight;
+            const wrapperWidth = wrapper.clientWidth;
+            const wrapperHeight = wrapperWidth / aspectRatio;
+
+            wrapper.style.height = `${wrapperHeight}px`;
+            canvas.width = wrapperWidth;
+            canvas.height = wrapperHeight;
+        } else {
+            const fallbackHeight = wrapper.clientWidth * 0.5625;
+            wrapper.style.height = `${fallbackHeight}px`;
+            canvas.width = wrapper.clientWidth;
+            canvas.height = fallbackHeight;
+        }
+    } else {
+        canvas.width = wrapper.clientWidth;
+        canvas.height = wrapper.clientHeight;
+    }
+
+    return createGrid(canvas, spacing);
 }

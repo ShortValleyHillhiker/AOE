@@ -23,25 +23,14 @@ function setupHalftoneCanvas(canvas) {
     const totalSteps = 10; // animation steps
     let currentStep = 0;
 
-function resizeCanvas() {
-    const aspectRatio = sourceImage.naturalWidth / sourceImage.naturalHeight;
-    const wrapperWidth = wrapper.clientWidth;
-    const canvasWidth = wrapperWidth;
-    const canvasHeight = wrapperWidth / aspectRatio;
-
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
-
-    grid = resizeCanvasAndGrid(canvas, spacing);
-
-    hiddenCanvas.width = canvasWidth;
-    hiddenCanvas.height = canvasHeight;
-
-    if (sourceImage.complete && sourceImage.naturalWidth > 0) {
-        drawImageToHiddenCanvas();
+    function resizeCanvas() {
+        grid = resizeCanvasAndGrid(canvas, spacing);
+        hiddenCanvas.width = canvas.width;
+        hiddenCanvas.height = canvas.height;
+        if (sourceImage.complete && sourceImage.naturalWidth > 0) {
+            drawImageToHiddenCanvas();
+        }
     }
-}
-
 
     function drawImageToHiddenCanvas() {
         hiddenCtx.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
@@ -93,21 +82,18 @@ function resizeCanvas() {
         requestAnimationFrame(animate);
     }
 
-function init() {
-    if (sourceImage.complete && sourceImage.naturalWidth > 0) {
-        requestAnimationFrame(() => {
+    function init() {
+        if (sourceImage.complete && sourceImage.naturalWidth > 0) {
             resizeCanvas();
             drawOnce();
-        });
-    } else {
-        sourceImage.onload = () => {
-            requestAnimationFrame(() => {
+        } else {
+            sourceImage.onload = () => {
                 resizeCanvas();
                 drawOnce();
-            });
-        };
+            };
+        }
     }
-}
+
     window.addEventListener('resize', () => {
         resizeCanvas();
         drawOnce();
