@@ -101,6 +101,7 @@ function setupRippleCanvas(canvas) {
         }
     }
 
+
     if (isTouch) {
         canvas.addEventListener('pointerdown', (e) => {
             isDragging = true;
@@ -124,25 +125,12 @@ function setupRippleCanvas(canvas) {
 
     resizeCanvas();
     let resizeTimeout = null;
-    let lastCanvasWidth = canvas.width;
-    let lastCanvasHeight = canvas.height;
 
     window.addEventListener('resize', () => {
         if (resizeTimeout) clearTimeout(resizeTimeout);
-
         resizeTimeout = setTimeout(() => {
-            const newWidth = canvas.parentElement.clientWidth;
-            const newHeight = canvas.parentElement.clientHeight;
-
-            const widthChanged = Math.abs(newWidth - lastCanvasWidth) > 2;
-            const heightChanged = Math.abs(newHeight - lastCanvasHeight) > 2;
-
-            if (widthChanged || heightChanged) {
-                lastCanvasWidth = newWidth;
-                lastCanvasHeight = newHeight;
-                resizeCanvas();
-            }
-        }, 250); // longer delay helps avoid flicker on scroll
+            resizeCanvas();
+        }, 100);
     });
 
     if (!animating) {
