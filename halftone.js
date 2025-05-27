@@ -23,25 +23,15 @@ function setupHalftoneCanvas(canvas) {
     const totalSteps = 10; // animation steps
     let currentStep = 0;
 
-function resizeCanvas() {
-    // Match wrapper height to image aspect ratio
-    if (sourceImage.naturalWidth > 0 && sourceImage.naturalHeight > 0) {
-        const aspectRatio = sourceImage.naturalWidth / sourceImage.naturalHeight;
-        const wrapperWidth = wrapper.clientWidth;
-        const wrapperHeight = wrapperWidth / aspectRatio;
-
-        wrapper.style.height = `${wrapperHeight}px`;
+    function resizeCanvas() {
+        grid = resizeCanvasAndGrid(canvas, spacing);
+        hiddenCanvas.width = canvas.width;
+        hiddenCanvas.height = canvas.height;
+        if (sourceImage.complete && sourceImage.naturalWidth > 0) {
+            drawImageToHiddenCanvas();
+        }
     }
 
-    grid = resizeCanvasAndGrid(canvas, spacing);
-
-    hiddenCanvas.width = canvas.width;
-    hiddenCanvas.height = canvas.height;
-
-    if (sourceImage.complete && sourceImage.naturalWidth > 0) {
-        drawImageToHiddenCanvas();
-    }
-}
     function drawImageToHiddenCanvas() {
         hiddenCtx.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
         imageData = hiddenCtx.getImageData(0, 0, canvas.width, canvas.height);
@@ -55,6 +45,13 @@ function resizeCanvas() {
             return Math.round(baseRadius * scale * 2);
         });
     }
+
+function setWrapperAspectRatio() {
+    if (!sourceImage.naturalWidth || !sourceImage.naturalHeight) return;
+    // Set CSS aspect-ratio property on the wrapper element
+    wrapper.style.aspectRatio = `${sourceImage.naturalWidth} / ${sourceImage.naturalHeight}`;
+}
+
 
     function drawOnce() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -92,20 +89,17 @@ function resizeCanvas() {
         requestAnimationFrame(animate);
     }
 
-    function init() {
-    function finalizeSetup() {
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                resizeCanvas();
-                drawOnce();
-            });
-        });
-    }
-
+function init() {
     if (sourceImage.complete && sourceImage.naturalWidth > 0) {
-        finalizeSetup();
+        setWrapperAspectRatio();  // <-- Set aspect ratio dynamically here
+        resizeCanvas();
+        drawOnce();
     } else {
-        sourceImage.onload = finalizeSetup;
+        sourceImage.onload = () => {
+            setWrapperAspectRatio();  // <-- Also here after image loads
+            resizeCanvas();
+            drawOnce();
+        };
     }
 }
 
