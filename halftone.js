@@ -46,13 +46,6 @@ function setupHalftoneCanvas(canvas) {
         });
     }
 
-function setWrapperAspectRatio() {
-    if (!sourceImage.naturalWidth || !sourceImage.naturalHeight) return;
-    // Set CSS aspect-ratio property on the wrapper element
-    wrapper.style.aspectRatio = `${sourceImage.naturalWidth} / ${sourceImage.naturalHeight}`;
-}
-
-
     function drawOnce() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawGrid();
@@ -89,19 +82,17 @@ function setWrapperAspectRatio() {
         requestAnimationFrame(animate);
     }
 
-function init() {
-    if (sourceImage.complete && sourceImage.naturalWidth > 0) {
-        setWrapperAspectRatio();  // <-- Set aspect ratio dynamically here
-        resizeCanvas();
-        drawOnce();
-    } else {
-        sourceImage.onload = () => {
-            setWrapperAspectRatio();  // <-- Also here after image loads
+    function init() {
+        if (sourceImage.complete && sourceImage.naturalWidth > 0) {
             resizeCanvas();
             drawOnce();
-        };
+        } else {
+            sourceImage.onload = () => {
+                resizeCanvas();
+                drawOnce();
+            };
+        }
     }
-}
 
     window.addEventListener('resize', () => {
         resizeCanvas();
