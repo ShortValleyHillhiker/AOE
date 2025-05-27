@@ -1,5 +1,5 @@
-import { createGrid, drawDotGrid, resizeCanvasAndGrid } from './grid-utils.js';
-import { CONFIG } from './config.js';
+import { createGrid, drawDotGrid, resizeCanvasAndGrid } from '/halftone/grid-utils.js';
+import { CONFIG } from '/halftone/config.js';
 
 function setupRippleCanvas(canvas) {
     const {

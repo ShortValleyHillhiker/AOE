@@ -1,6 +1,6 @@
-import { drawDotGrid, resizeCanvasAndGrid } from './grid-utils.js';
-import { CONFIG } from './config.js';
-import { getBrightnessAt } from './image-utils.js';
+import { drawDotGrid, resizeCanvasAndGrid } from '/halftone/grid-utils.js';
+import { CONFIG } from '/halftone/config.js';
+import { getBrightnessAt } from '/halftone/image-utils.js';
 
 function setupHalftoneCanvas(canvas) {
     const ctx = canvas.getContext('2d');
