@@ -1,20 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    <script defer src="app.js"></script>
 </head>
-<body>
-    
-<img id="source-img" src="https://www.vennerstrom.se/cases/storaenso/01.webp" style="display:none;" crossorigin="anonymous">
 
-<div class="canvas-wrapper"><canvas class="ripple-canvas touch"></canvas></div>
-<div class="canvas-wrapper"><canvas class="ripple-canvas automatic"></canvas></div>
-<div class="canvas-wrapper"><canvas class="ripple-canvas loop"></canvas></div>
-<div class="canvas-wrapper"><canvas class="ripple-canvas halftone"></canvas></div>
+<body>
+
+
+    <section class="ett">
+        <div class="canvas-wrapper"><canvas class="ripple-canvas touch"></canvas></div>
+        <div class="canvas-wrapper"><canvas class="ripple-canvas automatic"></canvas></div>
+        <div class="canvas-wrapper"><canvas class="ripple-canvas loop"></canvas></div>
+    </section>
+
+    <section class="tva">
+        <div class="canvas-wrapper">
+            <img id="source-img" src="https://www.vennerstrom.se/cases/gbgvarv/00.webp" style="display:none;"
+                crossorigin="anonymous">
+            <canvas class="ripple-canvas halftone"></canvas>
+        </div>
+        <div class="canvas-wrapper">
+            <img id="source-img" src="https://www.vennerstrom.se/cases/mockups/00.webp" style="display:none;"
+                crossorigin="anonymous">
+            <canvas class="ripple-canvas halftone"></canvas>
+        </div>
+        <div class="canvas-wrapper">
+            <img id="source-img" src="https://www.vennerstrom.se/cases/storaenso/01.webp" style="display:none;"
+                crossorigin="anonymous">
+            <canvas class="ripple-canvas halftone"></canvas>
+        </div>
+    </section>
 
 </body>
+
+<script type="module" src="app.js"></script>
+<script type="module" src="grid-utils.js"></script>
+<script type="module" src="halftone.js"></script>
+
 </html>
