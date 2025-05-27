@@ -34,6 +34,7 @@ canvas.ripple-canvas {
 
 .canvas-wrapper:has(.ripple-canvas.halftone) {
     width: 100%;
+    height: auto;
     display: block;
 }
 

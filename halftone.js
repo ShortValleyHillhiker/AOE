@@ -23,15 +23,25 @@ function setupHalftoneCanvas(canvas) {
     const totalSteps = 10; // animation steps
     let currentStep = 0;
 
-    function resizeCanvas() {
-        grid = resizeCanvasAndGrid(canvas, spacing);
-        hiddenCanvas.width = canvas.width;
-        hiddenCanvas.height = canvas.height;
-        if (sourceImage.complete && sourceImage.naturalWidth > 0) {
-            drawImageToHiddenCanvas();
-        }
+function resizeCanvas() {
+    // Match wrapper height to image aspect ratio
+    if (sourceImage.naturalWidth > 0 && sourceImage.naturalHeight > 0) {
+        const aspectRatio = sourceImage.naturalWidth / sourceImage.naturalHeight;
+        const wrapperWidth = wrapper.clientWidth;
+        const wrapperHeight = wrapperWidth / aspectRatio;
+
+        wrapper.style.height = `${wrapperHeight}px`;
     }
 
+    grid = resizeCanvasAndGrid(canvas, spacing);
+
+    hiddenCanvas.width = canvas.width;
+    hiddenCanvas.height = canvas.height;
+
+    if (sourceImage.complete && sourceImage.naturalWidth > 0) {
+        drawImageToHiddenCanvas();
+    }
+}
     function drawImageToHiddenCanvas() {
         hiddenCtx.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
         imageData = hiddenCtx.getImageData(0, 0, canvas.width, canvas.height);
@@ -83,16 +93,21 @@ function setupHalftoneCanvas(canvas) {
     }
 
     function init() {
-        if (sourceImage.complete && sourceImage.naturalWidth > 0) {
-            resizeCanvas();
-            drawOnce();
-        } else {
-            sourceImage.onload = () => {
+    function finalizeSetup() {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
                 resizeCanvas();
                 drawOnce();
-            };
-        }
+            });
+        });
     }
+
+    if (sourceImage.complete && sourceImage.naturalWidth > 0) {
+        finalizeSetup();
+    } else {
+        sourceImage.onload = finalizeSetup;
+    }
+}
 
     window.addEventListener('resize', () => {
         resizeCanvas();
