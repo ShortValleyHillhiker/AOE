@@ -15,10 +15,13 @@ function setupHalftoneCanvas(canvas) {
 
     let imageData = null;
     let grid = [];
-    let progress = 0; // transition: 0 = uniform, 1 = halftone
-    let targetProgress = 0;
+    let progress = 0; // 0 = uniform, 1 = full halftone
     let animating = false;
-    let scaleTimeout = null;
+    let hasAnimated = false; // Track if animation ran once
+    let lastFrameTime = 0;
+    const frameInterval = 1000 / 12; // 12 FPS
+    const totalSteps = 10; // animation steps
+    let currentStep = 0;
 
     function resizeCanvas() {
         grid = resizeCanvasAndGrid(canvas, spacing);
@@ -38,10 +41,7 @@ function setupHalftoneCanvas(canvas) {
         drawDotGrid(ctx, grid, (dot) => {
             const brightness = getBrightnessAt(imageData, dot.x, dot.y, canvas.width);
             const halftoneScale = 1 - brightness;
-
-            // Transition from scale = 1 to scale = halftoneScale
             const scale = 1 + (halftoneScale - 1) * progress;
-
             return Math.round(baseRadius * scale * 2);
         });
     }
@@ -51,37 +51,35 @@ function setupHalftoneCanvas(canvas) {
         drawGrid();
     }
 
-    function animate() {
-        if (Math.abs(progress - targetProgress) < 0.01) {
-            progress = targetProgress;
+    function animate(timestamp) {
+        if (!lastFrameTime) lastFrameTime = timestamp;
+        const elapsed = timestamp - lastFrameTime;
+
+        if (elapsed >= frameInterval) {
+            lastFrameTime = timestamp;
+
+            currentStep++;
+            progress = Math.min(currentStep / totalSteps, 1);
             drawOnce();
-            animating = false;
-            return;
-        }
 
-        progress += (targetProgress - progress) * 0.1;
-        drawOnce();
-        requestAnimationFrame(animate);
-    }
-
-    function setTargetProgress(value, delay = 0) {
-        if (scaleTimeout) clearTimeout(scaleTimeout);
-
-        if (delay > 0) {
-            scaleTimeout = setTimeout(() => {
-                targetProgress = value;
-                if (!animating) {
-                    animating = true;
-                    requestAnimationFrame(animate);
-                }
-            }, delay);
-        } else {
-            targetProgress = value;
-            if (!animating) {
-                animating = true;
-                requestAnimationFrame(animate);
+            if (progress >= 1) {
+                animating = false;
+                hasAnimated = true;
+                return;
             }
         }
+
+        if (animating) {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    function startAnimation() {
+        if (animating || hasAnimated) return;
+        animating = true;
+        currentStep = 0;
+        progress = 0;
+        requestAnimationFrame(animate);
     }
 
     function init() {
@@ -101,13 +99,11 @@ function setupHalftoneCanvas(canvas) {
         drawOnce();
     });
 
-    // Trigger with IntersectionObserver
+    // IntersectionObserver triggers animation once per canvas
     const observer = new IntersectionObserver((entries) => {
         for (const entry of entries) {
-            if (entry.isIntersecting) {
-                setTargetProgress(1, 150); // 150ms delay when entering
-            } else {
-                setTargetProgress(0); // immediate when leaving
+            if (entry.isIntersecting && !hasAnimated) {
+                setTimeout(startAnimation, 350); // delay before start anim
             }
         }
     }, { threshold: 0.1 });

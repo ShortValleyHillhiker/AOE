@@ -25,7 +25,7 @@ export function drawDotGrid(ctx, grid, getRadius) {
 
         ctx.beginPath();
         ctx.arc(Math.round(dot.x), Math.round(dot.y), radius, 0, Math.PI * 2);
-        ctx.fillStyle = '#5b5b5b';
+        ctx.fillStyle = '#1c1c1c';
         ctx.fill();
     }
 }
