@@ -23,14 +23,25 @@ function setupHalftoneCanvas(canvas) {
     const totalSteps = 10; // animation steps
     let currentStep = 0;
 
-    function resizeCanvas() {
-        grid = resizeCanvasAndGrid(canvas, spacing);
-        hiddenCanvas.width = canvas.width;
-        hiddenCanvas.height = canvas.height;
-        if (sourceImage.complete && sourceImage.naturalWidth > 0) {
-            drawImageToHiddenCanvas();
-        }
+function resizeCanvas() {
+    const aspectRatio = sourceImage.naturalWidth / sourceImage.naturalHeight;
+    const wrapperWidth = wrapper.clientWidth;
+    const canvasWidth = wrapperWidth;
+    const canvasHeight = wrapperWidth / aspectRatio;
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    grid = resizeCanvasAndGrid(canvas, spacing);
+
+    hiddenCanvas.width = canvasWidth;
+    hiddenCanvas.height = canvasHeight;
+
+    if (sourceImage.complete && sourceImage.naturalWidth > 0) {
+        drawImageToHiddenCanvas();
     }
+}
+
 
     function drawImageToHiddenCanvas() {
         hiddenCtx.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
@@ -45,13 +56,6 @@ function setupHalftoneCanvas(canvas) {
             return Math.round(baseRadius * scale * 2);
         });
     }
-
-function setWrapperAspectRatio() {
-    if (!sourceImage.naturalWidth || !sourceImage.naturalHeight) return;
-    // Set CSS aspect-ratio property on the wrapper element
-    wrapper.style.aspectRatio = `${sourceImage.naturalWidth} / ${sourceImage.naturalHeight}`;
-}
-
 
     function drawOnce() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -89,19 +93,17 @@ function setWrapperAspectRatio() {
         requestAnimationFrame(animate);
     }
 
-function init() {
-    if (sourceImage.complete && sourceImage.naturalWidth > 0) {
-        setWrapperAspectRatio();  // <-- Set aspect ratio dynamically here
-        resizeCanvas();
-        drawOnce();
-    } else {
-        sourceImage.onload = () => {
-            setWrapperAspectRatio();  // <-- Also here after image loads
+    function init() {
+        if (sourceImage.complete && sourceImage.naturalWidth > 0) {
             resizeCanvas();
             drawOnce();
-        };
+        } else {
+            sourceImage.onload = () => {
+                resizeCanvas();
+                drawOnce();
+            };
+        }
     }
-}
 
     window.addEventListener('resize', () => {
         resizeCanvas();
