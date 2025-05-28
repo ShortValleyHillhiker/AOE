@@ -32,13 +32,9 @@ export function drawDotGrid(ctx, grid, getRadius) {
 
 export function resizeCanvasAndGrid(canvas, spacing = 8) {
     const wrapper = canvas.parentElement;
-    const rect = wrapper.getBoundingClientRect();
+    canvas.width = wrapper.clientWidth;
+    canvas.height = wrapper.clientHeight;
 
-    canvas.width = rect.width;
-    canvas.height = rect.height;
-
-    canvas.style.width = `${rect.width}px`;
-    canvas.style.height = `${rect.height}px`;
-
-    return createGrid(canvas, spacing);
+    const grid = createGrid(canvas, spacing);
+    return grid;
 }

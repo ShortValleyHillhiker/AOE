@@ -10,6 +10,7 @@
 
 <body>
 
+    <p>Klicka, dra och scrolla.</p>
 
     <section class="ett">
         <div class="canvas-wrapper"><canvas class="ripple-canvas touch"></canvas></div>
@@ -18,18 +19,18 @@
     </section>
 
     <section class="tva">
-        <div class="canvas-wrapper">
-            <img id="source-img" src="https://www.vennerstrom.se/cases/gbgvarv/00.webp" style="display:none;"
+        <div class="canvas-wrapper horizontal">
+            <img id="source-img" src="https://www.vennerstrom.se/cases/burgerking/00.webp" style="display:none;"
                 crossorigin="anonymous">
             <canvas class="ripple-canvas halftone"></canvas>
         </div>
-        <div class="canvas-wrapper">
-            <img id="source-img" src="https://www.vennerstrom.se/cases/mockups/00.webp" style="display:none;"
+        <div class="canvas-wrapper horizontal">
+            <img id="source-img" src="https://www.vennerstrom.se/cases/storaenso/12.webp" style="display:none;"
                 crossorigin="anonymous">
             <canvas class="ripple-canvas halftone"></canvas>
         </div>
-        <div class="canvas-wrapper">
-            <img id="source-img" src="https://www.vennerstrom.se/cases/storaenso/01.webp" style="display:none;"
+        <div class="canvas-wrapper vertical" size="16x9">
+            <img id="source-img" src="https://www.vennerstrom.se/cases/rave/02.jpg" style="display:none;"
                 crossorigin="anonymous">
             <canvas class="ripple-canvas halftone"></canvas>
         </div>
@@ -43,8 +44,8 @@
 
 </body>
 
-<script defer type="module" src="halftone/ripplecanvas.js"></script>
-<script defer type="module" src="halftone/grid-utils.js"></script>
-<script defer type="module" src="halftone/halftone.js"></script>
+<script type="module" src="halftone/ripplecanvas.js"></script>
+<script type="module" src="halftone/grid-utils.js"></script>
+<script type="module" src="halftone/halftone.js"></script>
 
 </html>
