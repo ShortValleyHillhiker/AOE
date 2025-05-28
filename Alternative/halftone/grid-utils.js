@@ -23,11 +23,14 @@ export function drawDotGrid(ctx, grid, getRadius) {
         const radius = getRadius(dot);
         if (radius <= 0) continue;
 
-        ctx.beginPath();
-        ctx.arc(Math.round(dot.x), Math.round(dot.y), radius, 0, Math.PI * 2);
-        // ctx.fillStyle = '#1c1c1c';
-        ctx.fillStyle = '#324c18';
-        ctx.fill();
+        const size = radius * 2;
+        ctx.fillStyle = '#243f00';
+        ctx.fillRect(
+            Math.round(dot.x - radius),
+            Math.round(dot.y - radius),
+            size,
+            size
+        );
     }
 }
 

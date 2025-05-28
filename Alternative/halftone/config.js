@@ -7,18 +7,18 @@ const vw = window.innerWidth;
 export const CONFIG = {
     // spacing: clamp(8, vw /  96, 32),
     // baseRadius: clamp(2.5, vw / 300, 100),
-    // rippleWidth: clamp(12, vw / 144, 48),
-    // rippleSpeed: clamp(10, vw / 160, 40),
+    // rippleWidth: clamp(12, vw / 54, 96),
+    // rippleSpeed: clamp(10, vw / 60, 80),
     // dragCooldown: 150,
     // maxRipples: 15,
     // fadeFactor: 0.9,
     // frameRate: 12
         
-    spacing: 8,
+    spacing: 12,
     baseRadius: 2.5,
-    rippleWidth: 12,
+    rippleWidth: 18,
     rippleSpeed: 10,
-    dragCooldown: 50,
+    dragCooldown: 150,
     maxRipples: 15,
     fadeFactor: 0.9,
     frameRate: 12

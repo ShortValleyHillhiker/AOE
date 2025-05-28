@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <p>Klicka, dra och scrolla.</p>
+
+    <section class="ett">
+        <div class="canvas-wrapper"><canvas class="ripple-canvas touch"></canvas></div>
+        <div class="canvas-wrapper"><canvas class="ripple-canvas automatic"></canvas></div>
+        <div class="canvas-wrapper"><canvas class="ripple-canvas loop"></canvas></div>
+    </section>
+
+    <section class="tva">
+        <div class="canvas-wrapper horizontal">
+            <img id="source-img" src="https://www.vennerstrom.se/cases/burgerking/00.webp" style="display:none;"
+                crossorigin="anonymous">
+            <canvas class="ripple-canvas halftone"></canvas>
+        </div>
+        <div class="canvas-wrapper horizontal">
+            <img id="source-img" src="https://www.vennerstrom.se/cases/storaenso/12.webp" style="display:none;"
+                crossorigin="anonymous">
+            <canvas class="ripple-canvas halftone"></canvas>
+        </div>
+        <div class="canvas-wrapper vertical" size="16x9">
+            <img id="source-img" src="https://www.vennerstrom.se/cases/rave/02.jpg" style="display:none;"
+                crossorigin="anonymous">
+            <canvas class="ripple-canvas halftone"></canvas>
+        </div>
+    </section>
+
+    <section class="ett">
+        <div class="canvas-wrapper"><canvas class="ripple-canvas touch"></canvas></div>
+        <div class="canvas-wrapper"><canvas class="ripple-canvas automatic"></canvas></div>
+        <div class="canvas-wrapper"><canvas class="ripple-canvas loop"></canvas></div>
+    </section>
+
+</body>
+
+<script type="module" src="/Alternative/halftone/ripplecanvas.js"></script>
+<script type="module" src="/Alternative/halftone/grid-utils.js"></script>
+<script type="module" src="/Alternative/halftone/halftone.js"></script>
+
+</html>
