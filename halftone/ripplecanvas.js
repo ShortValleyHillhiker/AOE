@@ -1,150 +1,106 @@
-import { createGrid, drawDotGrid, resizeCanvasAndGrid } from '/halftone/grid-utils.js';
+import { drawDotGrid, resizeCanvasAndGrid } from '/halftone/grid-utils.js';
 import { CONFIG } from '/halftone/config.js';
 
-function setupRippleCanvas(canvas) {
-    const {
-        spacing,
-        baseRadius,
-        rippleWidth,
-        rippleSpeed,
-        dragCooldown,
-        maxRipples,
-        fadeFactor,
-        frameRate
-    } = CONFIG;
+const {
+    spacing, baseRadius, rippleWidth, rippleSpeed,
+    dragCooldown, maxRipples, fadeFactor, frameRate
+} = CONFIG;
 
+const frameInterval = 1000 / frameRate;
+
+function setupRippleCanvas(canvas) {
     const ctx = canvas.getContext('2d');
     const isTouch = canvas.classList.contains('touch');
-    const isAutomatic = canvas.classList.contains('automatic');
+    const isAuto = canvas.classList.contains('automatic');
     const isLoop = canvas.classList.contains('loop');
 
-    let grid = [];
+    let grid = resizeCanvasAndGrid(canvas, spacing);
     let ripples = [];
-    let isDragging = false;
-    let lastDragTime = 0;
+    let lastFrame = 0;
+    let dragging = false;
+    let lastDrag = 0;
     let animating = false;
+    let inView = true;
 
-    function resizeCanvas() {
-        grid = resizeCanvasAndGrid(canvas, spacing);
-    }
+    const draw = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawDotGrid(ctx, grid, ({ x, y }) => {
+            let scale = 1;
+            for (const r of ripples) {
+                if (r.alpha < 0.01) continue;
+                const dx = x - r.x, dy = y - r.y;
+                if (Math.abs(dx) > r.radius + rippleWidth || Math.abs(dy) > r.radius + rippleWidth) continue;
+                const d2 = dx * dx + dy * dy;
+                const min = r.radius - rippleWidth, max = r.radius + rippleWidth;
+                if (d2 < min * min || d2 > max * max) continue;
+                const d = Math.sqrt(d2), diff = Math.abs(d - r.radius);
+                scale += (1 - diff / rippleWidth) * r.alpha * 2;
+            }
+            return Math.round(baseRadius * scale);
+        });
+    };
 
-    function addRipple(x, y) {
+    const animate = (ts) => {
+        if (ts - lastFrame >= frameInterval) {
+            lastFrame = ts;
+            draw();
+            ripples = ripples.map(r => ({
+                ...r,
+                radius: r.radius + rippleSpeed,
+                alpha: r.alpha * fadeFactor
+            })).filter(r => r.alpha > 0.01);
+            if (isAuto && Math.random() < 0.1) addRipple(Math.random() * canvas.width, Math.random() * canvas.height);
+            if (isLoop && ripples.length === 0) addRipple(canvas.width / 2, canvas.height / 2);
+        }
+
+        const needsAnim = inView && (ripples.length || isAuto || isLoop || (isTouch && dragging));
+        if (needsAnim) requestAnimationFrame(animate);
+        else animating = false;
+    };
+
+    const addRipple = (x, y) => {
+        if (!inView) return;
         if (ripples.length >= maxRipples) ripples.shift();
         ripples.push({ x, y, radius: 0, alpha: 1 });
         if (!animating) {
             animating = true;
             requestAnimationFrame(animate);
         }
-    }
-
-    function drawGrid() {
-        drawDotGrid(ctx, grid, (dot) => {
-            let scale = 1;
-
-            for (const ripple of ripples) {
-                if (ripple.alpha < 0.01) continue;
-
-                // Quick bounding box check first
-                const maxInfluence = ripple.radius + rippleWidth;
-                const dx = dot.x - ripple.x;
-                if (Math.abs(dx) > maxInfluence) continue;
-
-                const dy = dot.y - ripple.y;
-                if (Math.abs(dy) > maxInfluence) continue;
-
-                // Avoid sqrt when outside max influence (optional for extra speed)
-                const distSq = dx * dx + dy * dy;
-                const min = ripple.radius - rippleWidth;
-                const max = ripple.radius + rippleWidth;
-                if (distSq < min * min || distSq > max * max) continue;
-
-                const dist = Math.sqrt(distSq);
-                const diff = Math.abs(dist - ripple.radius);
-                const strength = (1 - diff / rippleWidth) * ripple.alpha;
-                scale += strength * 2;
-            }
-
-            return Math.round(baseRadius * scale);
-        });
-    }
-
-    let lastFrameTime = 0;
-    const frameInterval = 1000 / frameRate;
-
-    function animate(timestamp) {
-        if (timestamp - lastFrameTime >= frameInterval) {
-            lastFrameTime = timestamp;
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawGrid();
-
-            for (const ripple of ripples) {
-                ripple.radius += rippleSpeed;
-                ripple.alpha *= fadeFactor;
-            }
-
-            ripples = ripples.filter(r => r.alpha > 0.01);
-
-            if (isAutomatic && Math.random() < 0.1) {
-                addRipple(Math.random() * canvas.width, Math.random() * canvas.height);
-            }
-
-            if (isLoop && ripples.length === 0) {
-                addRipple(canvas.width / 2, canvas.height / 2);
-            }
-        }
-
-        if (ripples.length > 0 || isAutomatic || isLoop || isTouch) {
-            requestAnimationFrame(animate);
-        } else {
-            animating = false;
-        }
-    }
+    };
 
     if (isTouch) {
-        canvas.addEventListener('pointerdown', (e) => {
-            isDragging = true;
-            const rect = canvas.getBoundingClientRect();
-            addRipple(e.clientX - rect.left, e.clientY - rect.top);
-            lastDragTime = Date.now();
+        canvas.addEventListener('pointerdown', e => {
+            dragging = true;
+            const r = canvas.getBoundingClientRect();
+            addRipple(e.clientX - r.left, e.clientY - r.top);
+            lastDrag = Date.now();
         });
-
-        canvas.addEventListener('pointerup', () => isDragging = false);
-
-        canvas.addEventListener('pointermove', (e) => {
-            if (!isDragging) return;
-            const now = Date.now();
-            if (now - lastDragTime > dragCooldown) {
-                const rect = canvas.getBoundingClientRect();
-                addRipple(e.clientX - rect.left, e.clientY - rect.top);
-                lastDragTime = now;
-            }
+        canvas.addEventListener('pointerup', () => dragging = false);
+        canvas.addEventListener('pointermove', e => {
+            if (!dragging || Date.now() - lastDrag < dragCooldown) return;
+            const r = canvas.getBoundingClientRect();
+            addRipple(e.clientX - r.left, e.clientY - r.top);
+            lastDrag = Date.now();
         });
     }
 
-    resizeCanvas();
-    let resizeTimeout = null;
-    let lastCanvasWidth = canvas.width;
-    let lastCanvasHeight = canvas.height;
-
     window.addEventListener('resize', () => {
-        if (resizeTimeout) clearTimeout(resizeTimeout);
-
-        resizeTimeout = setTimeout(() => {
-            const newWidth = canvas.parentElement.clientWidth;
-            const newHeight = canvas.parentElement.clientHeight;
-
-            const widthChanged = Math.abs(newWidth - lastCanvasWidth) > 2;
-            const heightChanged = Math.abs(newHeight - lastCanvasHeight) > 2;
-
-            if (widthChanged || heightChanged) {
-                lastCanvasWidth = newWidth;
-                lastCanvasHeight = newHeight;
-                resizeCanvas();
-            }
-        }, 250); // longer delay helps avoid flicker on scroll
+        clearTimeout(canvas._resizeTimeout);
+        canvas._resizeTimeout = setTimeout(() => {
+            grid = resizeCanvasAndGrid(canvas, spacing);
+            draw();
+        }, 250);
     });
 
+    new IntersectionObserver(([entry]) => {
+        inView = entry.isIntersecting;
+        if (inView && !animating) {
+            animating = true;
+            requestAnimationFrame(animate);
+        }
+    }, { threshold: 0.1 }).observe(canvas);
+
+    draw();
     if (!animating) {
         animating = true;
         requestAnimationFrame(animate);

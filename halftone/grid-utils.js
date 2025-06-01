@@ -1,41 +1,33 @@
-export function createGrid(canvas, spacing = 8) {
-    const grid = [];
-
+export function createGrid(canvas, spacing) {
     const cols = Math.ceil(canvas.width / spacing);
     const rows = Math.ceil(canvas.height / spacing);
+    const grid = [];
 
     for (let y = 0; y <= rows; y++) {
+        const offsetX = (y & 1) ? spacing / 2 : 0;
         for (let x = 0; x <= cols; x++) {
-            const offsetX = (y % 2 === 0) ? 0 : spacing / 2;
-
-            grid.push({
-                x: x * spacing + offsetX,
-                y: y * spacing
-            });
+            grid.push({ x: x * spacing + offsetX, y: y * spacing });
         }
     }
 
     return grid;
 }
 
-export function drawDotGrid(ctx, grid, getRadius) {
-    for (const dot of grid) {
-        const radius = getRadius(dot);
-        if (radius <= 0) continue;
-
+export function drawDotGrid(ctx, grid, getRadius, color = '#1c1c1c') { //#324c18
+    ctx.fillStyle = color;
+    for (let i = 0; i < grid.length; i++) {
+        const { x, y } = grid[i];
+        const r = getRadius(grid[i]);
+        if (r <= 0) continue;
         ctx.beginPath();
-        ctx.arc(Math.round(dot.x), Math.round(dot.y), radius, 0, Math.PI * 2);
-        // ctx.fillStyle = '#1c1c1c';
-        ctx.fillStyle = '#324c18';
+        ctx.arc(Math.round(x), Math.round(y), r, 0, Math.PI * 2);
         ctx.fill();
     }
 }
 
-export function resizeCanvasAndGrid(canvas, spacing = 8) {
+export function resizeCanvasAndGrid(canvas, spacing) {
     const wrapper = canvas.parentElement;
     canvas.width = wrapper.clientWidth;
     canvas.height = wrapper.clientHeight;
-
-    const grid = createGrid(canvas, spacing);
-    return grid;
+    return createGrid(canvas, spacing);
 }
