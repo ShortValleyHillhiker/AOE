@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Web Design on My New Hugo Site</title>
+    <link>https://aoe.studio/tags/web-design/</link>
+    <description>Recent content in Web Design on My New Hugo Site</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 15 May 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://aoe.studio/tags/web-design/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Vesta Arkitekter</title>
+      <link>https://aoe.studio/work/vesta-arkitekter/</link>
+      <pubDate>Thu, 15 May 2025 00:00:00 +0000</pubDate>
+      <guid>https://aoe.studio/work/vesta-arkitekter/</guid>
+      <description>&lt;div id=&#34;context-block&#34;&gt;&#xD;&#xA;  &#xA;&lt;div class=&#34;context-block_inner&#34;&gt;&#xD;&#xA;  &lt;p&gt;Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quia accusamus est deleniti dignissimos eligendi necessitatibus, eveniet a, amet harum accusantium molestias! Ex totam deleniti animi nulla, repudiandae autem commodi.&lt;/p&gt;&#xA;&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quaerat facilis laboriosam, nam ut placeat voluptatem maiores, tempora voluptas ipsam ea, corrupti totam? Sed eius numquam atque, repellendus rem aliquam!&lt;/p&gt;&#xA;&lt;p&gt;Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi aliquam quos odit totam molestias adipisci, iusto amet minus voluptates repellat ratione sunt assumenda illum accusantium reprehenderit incidunt facilis veniam dolor.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
