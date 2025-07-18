@@ -1,12 +1,6 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Work on AOE Studios - Advertising Agency in Gothenburg</title>
-    <link>http://localhost:1313/work/</link>
-    <description>Recent content in Work on AOE Studios - Advertising Agency in Gothenburg</description>
-    <generator>Hugo</generator>
-    <language>en-us</language>
-    <lastBuildDate></lastBuildDate>
-    <atom:link href="http://localhost:1313/work/index.xml" rel="self" type="application/rss+xml" />
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Work on AOE Studios - Advertising Agency in Gothenburg</title><link>https://aoe.studio/work/</link><description>Recent content in Work on AOE Studios - Advertising Agency in Gothenburg</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 02 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://aoe.studio/work/index.xml" rel="self" type="application/rss+xml"/><item><title>New post</title><link>https://aoe.studio/work/test/</link><pubDate>Tue, 15 Jul 2025 00:00:00 +0000</pubDate><guid>https://aoe.studio/work/test/</guid><description/></item><item><title>Vesta Arkitekter</title><link>https://aoe.studio/work/vesta-arkitekter/</link><pubDate>Thu, 15 May 2025 00:00:00 +0000</pubDate><guid>https://aoe.studio/work/vesta-arkitekter/</guid><description>&lt;div id="context-block">
+ 
+&lt;div class="context-block_inner">
+ &lt;p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quia accusamus est deleniti dignissimos eligendi necessitatibus, eveniet a, amet harum accusantium molestias! Ex totam deleniti animi nulla, repudiandae autem commodi.&lt;/p>
+&lt;p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quaerat facilis laboriosam, nam ut placeat voluptatem maiores, tempora voluptas ipsam ea, corrupti totam? Sed eius numquam atque, repellendus rem aliquam!&lt;/p>
+&lt;p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi aliquam quos odit totam molestias adipisci, iusto amet minus voluptates repellat ratione sunt assumenda illum accusantium reprehenderit incidunt facilis veniam dolor.&lt;/p></description></item></channel></rss>
